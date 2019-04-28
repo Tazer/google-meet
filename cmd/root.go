@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"context"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -101,12 +100,12 @@ func initConfig() {
 
 	calendarService = srv
 
-	ctx := context.Background()
-	adminClient, err := admin.NewService(ctx)
+	// ctx := context.Background()
+	// adminClient, err := admin.NewService(ctx)
 
-	if err != nil {
-		log.Fatalf("Unable to retrieve Admin client: %v", err)
-	}
+	// if err != nil {
+	// 	log.Fatalf("Unable to retrieve Admin client: %v", err)
+	// }
 
-	adminService = adminClient
+	// adminService = adminClient
 }
