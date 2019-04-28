@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -11,11 +12,13 @@ import (
 	"github.com/spf13/viper"
 	"github.com/tazer/google-meet/pkg/meet"
 	"golang.org/x/oauth2/google"
+	admin "google.golang.org/api/admin/directory/v1"
 	"google.golang.org/api/calendar/v3"
 )
 
 var cfgFile string
 var calendarService *calendar.Service
+var adminService *admin.Service
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -97,4 +100,13 @@ func initConfig() {
 	}
 
 	calendarService = srv
+
+	ctx := context.Background()
+	adminClient, err := admin.NewService(ctx)
+
+	if err != nil {
+		log.Fatalf("Unable to retrieve Admin client: %v", err)
+	}
+
+	adminService = adminClient
 }

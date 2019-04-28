@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"google.golang.org/api/calendar/v3"
 )
 
@@ -45,6 +46,19 @@ to quickly create a Cobra application.`,
 			End: &calendar.EventDateTime{
 				DateTime: end.Format(time.RFC3339),
 			},
+		}
+
+		attendees := viper.GetStringSlice("attendees")
+
+		if len(attendees) > 0 {
+			event.Attendees = []*calendar.EventAttendee{}
+
+			for _, email := range attendees {
+				attendee := &calendar.EventAttendee{
+					Email: email,
+				}
+				event.Attendees = append(event.Attendees, attendee)
+			}
 		}
 
 		event, err := calendarService.Events.Insert(calendarID, event).ConferenceDataVersion(1).Do()
